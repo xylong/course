@@ -6,11 +6,12 @@ import (
 	"testing"
 )
 
+// TestNew 测试创建课程
 func TestNew(t *testing.T) {
 	c := New(
 		SetName("apple"),
 		SetImage("banana"),
-		SetTime(12345),
+		SetTime(3679),
 	)
 	b, _ := json.Marshal(c)
 	fmt.Println(string(b))

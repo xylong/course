@@ -32,6 +32,8 @@ github.com/shenyisyn/goft-expr v0.3.0/go.mod h1:iKC8XLbjdP5Gm/h5aAufw1yk8cz3tEky
 github.com/shenyisyn/goft-gin v0.4.1 h1:KToLHqKB6H9urxjzVXIjGQB1cxyheopsJG+zNLk4CMc=
 github.com/shenyisyn/goft-gin v0.4.1/go.mod h1:BjyLbuTjpgJQSiMb5zUV20EbJzu4DrUVI1RlbVrf3po=
 github.com/shenyisyn/goft-ioc v0.5.4/go.mod h1:4M6oyKxaJF3gY2Jl/dbL7vYr0H6E3FAVviF6GMj92as=
+github.com/shopspring/decimal v1.2.0 h1:abSATXmQEYyShuxI4/vyW3tV1MrKAJzCZ/0zLUXYbsQ=
+github.com/shopspring/decimal v1.2.0/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=

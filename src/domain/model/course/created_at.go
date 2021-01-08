@@ -23,11 +23,13 @@ func (c CreatedAt) MarshalJSON() ([]byte, error) {
 	})
 }
 
-// Format 格式化时间格式
+// Format 格式化时间
 func (c *CreatedAt) Format() string {
 	return c.Date.Format("2006-01-02 15:04:05")
 }
 
 func NewCreatedAt() *CreatedAt {
-	return &CreatedAt{}
+	return &CreatedAt{
+		Date: time.Now(),
+	}
 }
