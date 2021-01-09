@@ -32,3 +32,10 @@ func New(attrs ...Attr) *CoursePrice {
 	Attrs(attrs).apply(cp)
 	return cp
 }
+
+// SetCourseID 设置课程ID
+func SetCourseID(id int) Attr {
+	return func(coursePrice *CoursePrice) {
+		coursePrice.CourseID=id
+	}
+}
