@@ -14,6 +14,7 @@ func addCourse(name string,time int64) error  {
 	return lib.DB.Create(course).Error
 }
 
+// TestAddCourse 测试添加课程
 func TestAddCourse(t *testing.T) {
 	list:=[]struct{
 		name string

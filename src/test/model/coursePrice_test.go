@@ -15,6 +15,7 @@ func addCoursePrice(courseID int,marketPrice float64,salePrice float64) error {
 	return lib.DB.Create(cp).Error
 }
 
+// TestAddCoursePrice 测试添加课程价格
 func TestAddCoursePrice(t *testing.T) {
 	data := []struct {
 		id          int
