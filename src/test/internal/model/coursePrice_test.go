@@ -2,6 +2,7 @@ package model
 
 import (
 	"course/src/domain/model/price"
+	"course/src/infrastructure/GormDao"
 	"course/src/test/internal/lib"
 	"testing"
 )
@@ -33,5 +34,19 @@ func TestAddCoursePrice(t *testing.T) {
 		if err := addCoursePrice(id, mp, sp); err != nil {
 			t.Errorf("create %d error: %s\n", id, err.Error())
 		}
+	}
+}
+
+// TestCoursePriceLoad 测试课程价格查询
+func TestCoursePriceLoad(t *testing.T) {
+	repo := GormDao.NewCoursePriceRepo(lib.DB)
+	price := price.New(
+		price.SetCourseID(1),
+		price.SetRepo(repo),
+	)
+	if err := price.Load(); err != nil {
+		t.Error(err)
+	} else {
+		t.Logf("id=%d market_price=%s sale_price=%s", price.ID, price.Price.MarketPrice, price.Price.SalePrice)
 	}
 }
