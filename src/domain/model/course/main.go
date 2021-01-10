@@ -1,5 +1,7 @@
 package course
 
+import "course/src/domain/model/repository"
+
 type (
 	// Attr 属性方法
 	Attr func(*Course)
@@ -14,14 +16,6 @@ func (a Attrs) apply(course *Course) {
 	}
 }
 
-// Course 课程
-type Course struct {
-	ID        int        `json:"id" gorm:"id"`
-	Info      *Info      `json:"info" gorm:"embedded"`       // 课程信息
-	Time      *Time      `json:"time" gorm:"embedded"`       // 时长
-	CreatedAt *CreatedAt `json:"created_at" gorm:"embedded"` // 创建时间
-}
-
 // New 创建课程
 func New(attrs ...Attr) *Course {
 	course := &Course{
@@ -31,4 +25,29 @@ func New(attrs ...Attr) *Course {
 	}
 	Attrs(attrs).apply(course)
 	return course
+}
+
+// Course 课程
+type Course struct {
+	ID        int        `json:"id" gorm:"id"`
+	Info      *Info      `json:"info" gorm:"embedded"`       // 课程信息
+	Time      *Time      `json:"time" gorm:"embedded"`       // 时长
+	CreatedAt *CreatedAt `json:"created_at" gorm:"embedded"` // 创建时间
+	Repo repository.ICourseRepo `gorm:"-"`
+}
+
+// Name 设置模型名
+func (c *Course) Name() string {
+	return "Course"
+}
+
+func (c *Course) Load() error {
+	return c.Repo.FindByID(c)
+}
+
+// SetRepo 设置仓储
+func SetRepo(repo repository.ICourseRepo) Attr {
+	return func(course *Course) {
+		course.Repo=repo
+	}
 }

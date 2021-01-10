@@ -1,6 +1,9 @@
 package price
 
-import "time"
+import (
+	"course/src/domain/model/repository"
+	"time"
+)
 
 type (
 	// 属性方法
@@ -22,6 +25,16 @@ type CoursePrice struct {
 	Price       *Price       `json:"price" gorm:"embedded"`
 	Description *Description `json:"description" gorm:"embedded"`
 	CreatedAt   time.Time    `json:"created_at" gorm:"not null;comment:'创建时间'"`
+	Repo repository.ICoursePriceRepo `gorm:"-"`
+}
+
+// Name 设置模型名
+func (cp *CoursePrice) Name() string {
+	return "CoursePrice"
+}
+
+func (cp *CoursePrice) Load() error {
+	return cp.Repo.FindByID(cp)
 }
 
 func New(attrs ...Attr) *CoursePrice {
@@ -37,5 +50,12 @@ func New(attrs ...Attr) *CoursePrice {
 func SetCourseID(id int) Attr {
 	return func(coursePrice *CoursePrice) {
 		coursePrice.CourseID=id
+	}
+}
+
+// SetRepo 设置仓储
+func SetRepo(repo repository.ICoursePriceRepo) Attr {
+	return func(coursePrice *CoursePrice) {
+		coursePrice.Repo=repo
 	}
 }
