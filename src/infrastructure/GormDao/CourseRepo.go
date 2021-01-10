@@ -19,3 +19,8 @@ func NewCourseRepo(db *gorm.DB) *CourseRepo {
 func (r *CourseRepo) FindByID(model repository.IModel) error {
 	return r.db.First(model, model.(*course.Course).ID).Error
 }
+
+// Create 添加课程
+func (r *CourseRepo) Create(model repository.IModel) error {
+	return r.db.Create(model).Error
+}

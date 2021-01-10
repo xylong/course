@@ -6,6 +6,7 @@ import (
 	"course/src/domain/model/price"
 	"course/src/infrastructure/GormDao"
 	"course/src/test/internal/lib"
+	"encoding/json"
 	"testing"
 )
 
@@ -21,5 +22,25 @@ func TestQueryDetail(t *testing.T) {
 		t.Error(err)
 	} else {
 		t.Logf("%+v\n%+v\n%+v", fc.Course, fc.CoursePrice, fc.CoursePrice.Price)
+	}
+}
+
+// TestCreateCourse 测试创建课程
+func TestCreateCourse(t *testing.T) {
+	tx := lib.DB.Begin()
+	courseRepo, coursePriceRepo := GormDao.NewCourseRepo(tx), GormDao.NewCoursePriceRepo(tx)
+	course, coursePrice := course2.New(course2.SetName("三体")), price.New(
+		price.SetMarketPrice(93),
+		price.SetSalePrice(50.3),
+	)
+
+	fc := aggregation.NewFrontCourseAgg(course, coursePrice, courseRepo, coursePriceRepo)
+	if err := fc.CreateCourse(); err != nil {
+		tx.Rollback()
+		t.Error(err)
+	} else {
+		tx.Commit()
+		b, _ := json.Marshal(fc)
+		t.Log(string(b))
 	}
 }

@@ -44,3 +44,16 @@ func (fc *FrontCourse) QueryDetail() error {
 
 	return nil
 }
+
+// CreateCourse 创建课程
+func (fc *FrontCourse) CreateCourse() error {
+	if err := fc.Course.Create(); err != nil {
+		return errors.NewCreateError("Course", err.Error())
+	}
+	fc.CoursePrice.CourseID = fc.Course.ID
+	if err := fc.CoursePrice.Create(); err != nil {
+		return errors.NewCreateError("CoursePrice", err.Error())
+	}
+
+	return nil
+}

@@ -19,3 +19,8 @@ func NewCoursePriceRepo(db *gorm.DB) *CoursePriceRepo {
 func (r *CoursePriceRepo) FindByID(model repository.IModel) error {
 	return r.db.First(model, model.(*price.CoursePrice).CourseID).Error
 }
+
+// Create 添加课程价格信息
+func (r *CoursePriceRepo) Create(model repository.IModel) error {
+	return r.db.Create(model).Error
+}
