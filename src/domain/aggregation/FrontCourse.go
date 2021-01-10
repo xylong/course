@@ -4,10 +4,11 @@ import (
 	"course/src/domain/model/course"
 	"course/src/domain/model/price"
 	"course/src/domain/model/repository"
+	"course/src/infrastructure/errors"
 )
 
-// FrontCourseAgg 前台课程
-type FrontCourseAgg struct {
+// FrontCourse 前台课程
+type FrontCourse struct {
 	Course      *course.Course     // 根
 	CoursePrice *price.CoursePrice // 课程价格
 
@@ -16,18 +17,30 @@ type FrontCourseAgg struct {
 }
 
 // NewFrontCourseAgg 创建前台课程聚合
-func NewFrontCourseAgg(course *course.Course, coursePrice *price.CoursePrice, courseRepo repository.ICourseRepo, coursePriceRepo repository.ICoursePriceRepo) *FrontCourseAgg {
+func NewFrontCourseAgg(course *course.Course, coursePrice *price.CoursePrice, courseRepo repository.ICourseRepo, coursePriceRepo repository.ICoursePriceRepo) *FrontCourse {
 	if course == nil {
 		panic("Error Root Course")
 	}
 
-	fca := &FrontCourseAgg{Course: course, CoursePrice: coursePrice, CourseRepo: courseRepo, CoursePriceRepo: coursePriceRepo}
-	fca.Course.Repo, fca.CoursePrice.Repo = courseRepo, coursePriceRepo
+	fc := &FrontCourse{Course: course, CoursePrice: coursePrice, CourseRepo: courseRepo, CoursePriceRepo: coursePriceRepo}
+	fc.Course.Repo, fc.CoursePrice.Repo = courseRepo, coursePriceRepo
 
-	return fca
+	return fc
 }
 
 // QueryDetail 获取前台课程详情
-func (c *FrontCourseAgg) QueryDetail() error {
+func (fc *FrontCourse) QueryDetail() error {
+	if fc.Course.ID <= 0 {
+		return errors.NewNotFoundIDError("Course")
+	}
+	// 课程信息
+	if err := fc.Course.Load(); err != nil {
+		return errors.NewNotFoundDataError("Course", err.Error())
+	}
+	// 价格信息
+	if err := fc.CoursePrice.Load(); err != nil {
+		return errors.NewNotFoundDataError("CoursePrise", err.Error())
+	}
 
+	return nil
 }
